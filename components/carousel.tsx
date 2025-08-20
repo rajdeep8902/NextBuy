@@ -32,7 +32,7 @@ export const Carousel = ({ products }: Props) => {
             </div>
         )}
         <CardContent className="absolute inset-0 flex flex-col items-center justify-center bg-black bg-opacity">
-            <CardTitle className="text-3xl font-bold text-white mb-2">
+            <CardTitle className="text-3xl font-bold text-black mb-2">
                 {currentProd.name}
             </CardTitle>
             {price && price.unit_amount && <p>Rs {(price.unit_amount / 100).toFixed(2)}</p>}
