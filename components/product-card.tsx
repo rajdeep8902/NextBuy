@@ -13,7 +13,7 @@ export const ProductCard = ({ product }: Props) => {
     const price = product.default_price as Stripe.Price;
 
     return (
-        <Link href={"/products/1"}>
+        <Link href={`/products/${product.id}`}>
             <Card className="rounded-xl border border-gray-200 shadow-sm hover:shadow transition">
                 {product.images?.[0] && (
                     <div className="relative w-full aspect-[16/9] overflow-hidden rounded-t-xl">

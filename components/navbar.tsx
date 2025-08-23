@@ -1,6 +1,23 @@
-import Link from "next/link"
+"use client";
+import Link from "next/link";
+import { useState, useEffect } from "react";
+import { useCartStore } from "@/store/cart-store";
+import { ShoppingCartIcon, Bars3Icon, XMarkIcon } from "@heroicons/react/16/solid";
+import { Button } from "./ui/button";
 
 export const Navbar = () => {
+    const count = useCartStore((s) => s.totalItems());
+    const [mobile, setmobile] = useState<boolean>(false)
+    useEffect(() => {
+        const handleResize = () => {
+            if (window.innerWidth >= 768) {
+                setmobile(false);
+            }
+        }
+        window.addEventListener("resize", handleResize);
+        return () => window.removeEventListener("resize", handleResize);
+    }, []);
+
     return (
         <nav className="sticky top-0 z-50 bg-white/80 backdrop-blur supports-[backdrop-filter]:bg-white/70 border-b">
             <div className="mx-auto max-w-7xl flex items-center justify-between px-4 py-4">
@@ -17,8 +34,39 @@ export const Navbar = () => {
                 </div>
 
                 {/* Right: reserved for future actions, keeps center truly centered */}
-                <div className="flex-1 flex justify-end" />
+                <div className="flex-1 flex justify-end">
+                    <Link href="/checkout" className="relative inline-flex items-center justify-center rounded-md p-2 text-gray-700 hover:bg-black/5">
+                        <ShoppingCartIcon className="w-5 h-5" aria-hidden="true" />
+                        {count > 0 && (
+                            <span className="absolute -top-1 -right-1 inline-flex items-center justify-center rounded-full bg-black text-white text-[10px] w-4 h-4">
+                                {count}
+                            </span>
+                        )}
+                        <span className="sr-only">Cart</span>
+                    </Link>
+                    <Button variant="ghost" className="md:hidden" onClick={() => setmobile((prev) => !prev)}>
+                        {mobile ? <XMarkIcon className="w-5 h-5" /> : <Bars3Icon className="w-5 h-5" />}
+                    </Button>
+                </div>
             </div>
+            {
+                mobile && (
+                    <nav className="md:hidden bg-white shadow-md">
+                        {" "}
+                        <ul className="flex flex-col p-4 space-y-2">
+                            <li>
+                                <Link href={"/"} className="block hover:text-blue-600">Home</Link>
+                            </li>
+                            <li>
+                                <Link href={"/products"} className="block hover:text-blue-600">Products</Link>
+                            </li>
+                            <li>
+                                <Link href={"/checkout"} className="block hover:text-blue-600">Checkout</Link>
+                            </li>
+                        </ul>
+                    </nav>
+                )
+            }
         </nav>
     )
 }
