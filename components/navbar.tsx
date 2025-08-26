@@ -40,7 +40,7 @@ export const Navbar = () => {
                             <Button variant="ghost" onClick={() => signOut()}>Logout</Button>
                         </>
                     ) : (
-                        <Button variant="ghost" onClick={() => signIn('google')}>Login</Button>
+                        <Button variant="ghost" onClick={() => signIn()}>Login</Button>
                     )}
                     <Link href="/checkout" className="relative inline-flex items-center justify-center rounded-md p-2 text-gray-700 hover:bg-black/5">
                         <ShoppingCartIcon className="w-5 h-5" aria-hidden="true" />
