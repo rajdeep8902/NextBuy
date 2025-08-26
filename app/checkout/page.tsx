@@ -5,6 +5,7 @@ import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { useMemo } from "react";
 import { checkoutAction } from "./checkout-action";
+import Link from "next/link";
 
 export default function CheckoutPage() {
     const items = useCartStore((s) => s.items);
@@ -19,8 +20,9 @@ export default function CheckoutPage() {
 
     if (items.length === 0) {
         return (
-            <div className="container mx-auto px-4 py-8">
-                <h1 className="text-2xl font-semibold">Your Cart is empty</h1>
+            <div className="container mx-auto px-4 py-8 text-center">
+                <h1 className="text-3xl font-bold mb-4">Your Cart is empty</h1>
+                <Link href={"/products"} className="text-blue-600 hover:underline">Add Products</Link>
             </div>
         )
     }

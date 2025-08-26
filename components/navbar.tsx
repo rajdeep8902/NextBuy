@@ -4,8 +4,10 @@ import { useState, useEffect } from "react";
 import { useCartStore } from "@/store/cart-store";
 import { ShoppingCartIcon, Bars3Icon, XMarkIcon } from "@heroicons/react/16/solid";
 import { Button } from "./ui/button";
+import { useSession, signIn, signOut } from "next-auth/react";
 
 export const Navbar = () => {
+    const { data: session } = useSession();
     const count = useCartStore((s) => s.totalItems());
     const [mobile, setmobile] = useState<boolean>(false)
     useEffect(() => {
@@ -21,20 +23,25 @@ export const Navbar = () => {
     return (
         <nav className="sticky top-0 z-50 bg-white/80 backdrop-blur supports-[backdrop-filter]:bg-white/70 border-b">
             <div className="mx-auto max-w-7xl flex items-center justify-between px-4 py-4">
-                {/* Left: brand */}
                 <div className="flex-1">
                     <Link href="/" className="text-lg font-semibold tracking-tight">NextBuy</Link>
                 </div>
 
-                {/* Center: links */}
                 <div className="hidden md:flex items-center gap-8">
                     <Link href="/" className="hover:text-blue-600">Home</Link>
                     <Link href="/products" className="hover:text-blue-600">Products</Link>
                     <Link href="/checkout" className="hover:text-blue-600">Checkout</Link>
                 </div>
 
-                {/* Right: reserved for future actions, keeps center truly centered */}
-                <div className="flex-1 flex justify-end">
+                <div className="flex-1 flex justify-end items-center">
+                    {session ? (
+                        <>
+                            <p className="mr-4 text-sm">{session.user?.name}</p>
+                            <Button variant="ghost" onClick={() => signOut()}>Logout</Button>
+                        </>
+                    ) : (
+                        <Button variant="ghost" onClick={() => signIn('google')}>Login</Button>
+                    )}
                     <Link href="/checkout" className="relative inline-flex items-center justify-center rounded-md p-2 text-gray-700 hover:bg-black/5">
                         <ShoppingCartIcon className="w-5 h-5" aria-hidden="true" />
                         {count > 0 && (
@@ -52,7 +59,6 @@ export const Navbar = () => {
             {
                 mobile && (
                     <nav className="md:hidden bg-white shadow-md">
-                        {" "}
                         <ul className="flex flex-col p-4 space-y-2">
                             <li>
                                 <Link href={"/"} className="block hover:text-blue-600">Home</Link>
