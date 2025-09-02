@@ -24,7 +24,7 @@ export const Navbar = () => {
         <nav className="sticky top-0 z-50 bg-white/80 backdrop-blur supports-[backdrop-filter]:bg-white/70 border-b">
             <div className="mx-auto max-w-7xl flex items-center justify-between px-4 py-4">
                 <div className="flex-1">
-                    <Link href="/" className="text-lg font-semibold tracking-tight">NextBuy</Link>
+                    <Link href="/" className="text-lg font-semibold tracking-tight">PlayStore</Link>
                 </div>
 
                 <div className="hidden md:flex items-center gap-8">
